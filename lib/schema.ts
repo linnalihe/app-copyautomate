@@ -19,7 +19,7 @@ export const submissionSchema = z.object({
     .max(100, "Last name is too long.")
     .optional()
     .default("anonymous"),
-  honeypot: z.string().max(0).optional(),
+  honeypot: z.string().optional(),
 });
 
 export type SubmissionInput = z.infer<typeof submissionSchema>;

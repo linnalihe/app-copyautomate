@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     const result = submissionSchema.safeParse(body);
     if (!result.success) {
       return NextResponse.json(
-        { error: "Invalid input.", details: result.error.flatten().fieldErrors },
+        { error: "Invalid input." },
         { status: 400 }
       );
     }
