@@ -98,10 +98,41 @@ Open [http://localhost:3000/admin/login](http://localhost:3000/admin/login) to a
 
 ## 7. Deploy to Vercel
 
-1. Push your code to GitHub (the migration and env vars are not committed — that's intentional).
-2. Go to [vercel.com](https://vercel.com/) and import the repository.
-3. During setup, add all environment variables from step 5 under **Environment Variables**. For `STRIPE_SECRET_KEY`, use your live key (`sk_live_...`) in production.
+Push your code to GitHub, then connect the repo to Vercel.
+
+### First-time setup
+
+1. Go to [vercel.com](https://vercel.com/) and click **Add New > Project**.
+2. Import the `app-copyautomate` GitHub repository.
+3. Before clicking Deploy, expand **Environment Variables** and add all five variables from the table below.
 4. Click **Deploy**.
+
+### Adding environment variables
+
+| Variable | Value | Notes |
+|---|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | `https://your-project-ref.supabase.co` | From Supabase → Settings → API Keys |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_...` | From Supabase → Settings → API Keys |
+| `SUPABASE_SECRET_KEY` | `sb_secret_...` | From Supabase → Settings → API Keys |
+| `IP_HASH_SALT` | any random string | Run `openssl rand -hex 32` to generate one |
+| `STRIPE_SECRET_KEY` | `sk_live_...` | Use live key for production (test key for preview/dev) |
+
+**Option A — Vercel dashboard:**
+1. Go to your project → **Settings → Environment Variables**.
+2. Add each variable above, keeping all three environment checkboxes ticked (Production, Preview, Development).
+3. If the project is already deployed, go to **Deployments** → three-dot menu on the latest → **Redeploy** to pick up the new values.
+
+**Option B — Vercel CLI:**
+```bash
+npx vercel env add NEXT_PUBLIC_SUPABASE_URL
+npx vercel env add NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+npx vercel env add SUPABASE_SECRET_KEY
+npx vercel env add IP_HASH_SALT
+npx vercel env add STRIPE_SECRET_KEY
+npx vercel --prod
+```
+
+Each `env add` command will prompt you to paste the value and choose which environments to apply it to.
 
 After deploying, Vercel will give you a production URL. The app is live.
 
