@@ -112,9 +112,9 @@ These are non-negotiable and should be treated as acceptance criteria, not nice-
 ## 8. Environment Variables
 
 ```
-NEXT_PUBLIC_SUPABASE_URL=        # public, safe for client
-NEXT_PUBLIC_SUPABASE_ANON_KEY=   # public, safe for client (RLS protects data)
-SUPABASE_SERVICE_ROLE_KEY=       # SERVER-SIDE ONLY, never expose to client
+NEXT_PUBLIC_SUPABASE_URL=             # public, safe for client
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY= # public, safe for client (RLS protects data)
+SUPABASE_SECRET_KEY=                  # SERVER-SIDE ONLY, never expose to client
 UPSTASH_REDIS_REST_URL=          # for rate limiting
 UPSTASH_REDIS_REST_TOKEN=        # for rate limiting
 IP_HASH_SALT=                    # secret salt for hashing IPs before storage
