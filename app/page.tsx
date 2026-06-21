@@ -15,6 +15,17 @@ export default function Home() {
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
           <SubmissionForm />
         </div>
+
+        <div className="mt-6 text-center">
+          <form action="/api/checkout" method="POST">
+            <button
+              type="submit"
+              className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              ☕ Buy me a coffee — $5
+            </button>
+          </form>
+        </div>
       </div>
     </main>
   );
