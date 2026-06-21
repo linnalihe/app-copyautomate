@@ -1,11 +1,12 @@
 # Copy Automate
 
-A Next.js app where anyone can submit a project description via a chat-style form. Submissions are stored in Supabase. A password-protected admin page lets you view all submissions.
+A Next.js app where anyone can submit a project description via a chat-style form. Submissions are stored in Supabase. A password-protected admin page lets you view all submissions. Visitors can also support the project via a Stripe-powered "buy me a coffee" button ($5).
 
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) 18+
 - A [Supabase](https://supabase.com/) account (free tier is fine)
+- A [Stripe](https://stripe.com/) account (free)
 - A [Vercel](https://vercel.com/) account for deployment (optional for local dev)
 
 ---
@@ -75,6 +76,13 @@ To find your Supabase keys:
 
 For `IP_HASH_SALT`, use any random string (e.g. run `openssl rand -hex 32` in your terminal).
 
+For `STRIPE_SECRET_KEY`:
+
+1. Go to [dashboard.stripe.com/apikeys](https://dashboard.stripe.com/apikeys).
+2. Copy the **Secret key** (`sk_test_...` for test mode, `sk_live_...` for production).
+3. Use test keys locally — payments won't be real. Switch to live keys in Vercel when you're ready to accept real payments.
+4. To test locally, use Stripe's test card `4242 4242 4242 4242` with any future expiry and any CVC.
+
 ---
 
 ## 6. Run locally
@@ -92,7 +100,7 @@ Open [http://localhost:3000/admin/login](http://localhost:3000/admin/login) to a
 
 1. Push your code to GitHub (the migration and env vars are not committed — that's intentional).
 2. Go to [vercel.com](https://vercel.com/) and import the repository.
-3. During setup, add the four environment variables from step 5 under **Environment Variables**.
+3. During setup, add all environment variables from step 5 under **Environment Variables**. For `STRIPE_SECRET_KEY`, use your live key (`sk_live_...`) in production.
 4. Click **Deploy**.
 
 After deploying, Vercel will give you a production URL. The app is live.
@@ -103,8 +111,10 @@ After deploying, Vercel will give you a production URL. The app is live.
 
 ```
 app/
-  page.tsx                  # Public submission form (/)
+  page.tsx                  # Public submission form + buy me a coffee button (/)
+  success/page.tsx          # Post-payment thank-you page (/success)
   api/submit/route.ts       # POST endpoint — validates, rate-limits, inserts
+  api/checkout/route.ts     # POST endpoint — creates Stripe checkout session
   admin/
     page.tsx                # Admin dashboard (/admin)
     login/page.tsx          # Admin login (/admin/login)
@@ -113,6 +123,7 @@ components/
   SubmissionForm.tsx        # Chat-style form (client component)
 lib/
   schema.ts                 # Shared Zod validation schema
+  stripe.ts                 # Stripe singleton (server-only)
   supabase/
     server.ts               # Server-side Supabase clients
     client.ts               # Browser Supabase client
