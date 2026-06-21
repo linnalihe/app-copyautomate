@@ -59,17 +59,19 @@ Then open `.env.local` and fill in the values:
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
+SUPABASE_SECRET_KEY=sb_secret_...
 IP_HASH_SALT=replace-with-a-random-secret-string
 ```
 
 To find your Supabase keys:
 
-- Go to your Supabase project > **Settings > API**.
-- **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`
-- **anon / public** key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-- **service_role / secret** key → `SUPABASE_SERVICE_ROLE_KEY` (keep this secret — never commit it)
+1. Go to your Supabase project > **Settings > API Keys**.
+2. If you don't have keys yet, click **Create new API Keys**.
+3. From the **API Keys** tab (not the Legacy API Keys tab):
+   - **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`
+   - **Publishable key** (`sb_publishable_...`) → `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` — safe to expose in client-side code
+   - **Secret key** (`sb_secret_...`) → `SUPABASE_SECRET_KEY` — server-side only, never commit or expose publicly
 
 For `IP_HASH_SALT`, use any random string (e.g. run `openssl rand -hex 32` in your terminal).
 
