@@ -202,7 +202,7 @@ export default function SubmissionForm() {
             id="message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Describe your project idea, what you want to achieve, and how you're thinking about approaching it..."
+            placeholder="Describe your project in 2 sentences, and what you want AI to do for you"
             required
             maxLength={5000}
             rows={6}
